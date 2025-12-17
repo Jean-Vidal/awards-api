@@ -1,1 +1,1 @@
-# awards-api
+# golden-raspberry-awards-api
