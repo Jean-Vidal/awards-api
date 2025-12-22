@@ -49,46 +49,41 @@ public class CsvData implements CommandLineRunner {
 
         String line;
         while ((line = reader.readLine()) != null) {
+        	String[] columns = line.split(";");
+        	String winner = columns.length > 4 ? columns[4] : "no";
+        	
+        	FilmeCsvDTO csvDTO = new FilmeCsvDTO(
+        		columns[0],
+        	    columns[1],
+        	    columns[2],
+        	    columns[3],
+        	    winner
+        	);
+        	
+        	FilmeRefactDTO importDTO = trataDTOCru(csvDTO);
 
-        	while ((line = reader.readLine()) != null) {
+        	Filme filme = new Filme();
+        	filme.setAno(importDTO.ano());
+        	filme.setTitulo(importDTO.titulo());
+        	filme.setGanhador(importDTO.ganhador());
 
-        	    String[] columns = line.split(";");
-        	    String winner = columns.length > 4 ? columns[4] : "no";
-
-        	    FilmeCsvDTO csvDTO = new FilmeCsvDTO(
-        	        columns[0],
-        	        columns[1],
-        	        columns[2],
-        	        columns[3],
-        	        winner
-        	    );
-
-        	    FilmeRefactDTO importDTO = trataDTOCru(csvDTO);
-
-        	    Filme filme = new Filme();
-        	    filme.setAno(importDTO.ano());
-        	    filme.setTitulo(importDTO.titulo());
-        	    filme.setGanhador(importDTO.ganhador());
-
-        	    for (String produtorNome : importDTO.produtores()) {
-        	        Produtor produtor = produtorRepository
-        	            .findByNome(produtorNome)
-        	            .orElseGet(() -> produtorRepository.save(new Produtor(produtorNome)));
+        	for (String produtorNome : importDTO.produtores()) {
+        		 Produtor produtor = produtorRepository
+        			.findByNome(produtorNome)
+        	        .orElseGet(() -> produtorRepository.save(new Produtor(produtorNome)));
 
         	        filme.getProdutores().add(produtor);
-        	    }
-
-        	    for (String studioNome : importDTO.studios()) {
-        	        Studio studio = studioRepository
-        	            .findByNome(studioNome)
-        	            .orElseGet(() -> studioRepository.save(new Studio(studioNome)));
-
-        	        filme.getStudios().add(studio);
-        	    }
-
-        	    filmeRepository.save(filme);
         	}
 
+        	for (String studioNome : importDTO.studios()) {
+        		 Studio studio = studioRepository
+        		   .findByNome(studioNome)
+        	       .orElseGet(() -> studioRepository.save(new Studio(studioNome)));
+
+        	       filme.getStudios().add(studio);
+        	}
+
+        	filmeRepository.save(filme);
         }
 
         reader.close();
