@@ -56,7 +56,3 @@ Exemplo de resposta:
   ]
 }
 ```
-
-
-}
-
