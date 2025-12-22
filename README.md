@@ -28,3 +28,31 @@ mvn test
 
 Com a aplicação rodando, é possível acessar o console do H2 em:
 http://localhost:8080/h2-console
+
+Endpoint da API:
+
+Para obter o produtor com maior e menor intervalo entre dois prêmios consecutivos, utilize:
+
+GET http://localhost:8080/api/premios/intervalos
+
+Exemplo de resposta:
+
+{
+  "min": [
+    {
+      "producer": "Producer 1",
+      "interval": 1,
+      "previousWin": 2008,
+      "followingWin": 2009
+    }
+  ],
+  "max": [
+    {
+      "producer": "Producer 2",
+      "interval": 99,
+      "previousWin": 1900,
+      "followingWin": 1999
+    }
+  ]
+}
+
