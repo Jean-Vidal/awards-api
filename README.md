@@ -36,7 +36,7 @@ Para obter o produtor com maior e menor intervalo entre dois prêmios consecutiv
 GET http://localhost:8080/api/premios/intervalos
 
 Exemplo de resposta:
-
+```
 {
   "min": [
     {
@@ -54,5 +54,9 @@ Exemplo de resposta:
       "followingWin": 1999
     }
   ]
+}
+```
+
+
 }
 
